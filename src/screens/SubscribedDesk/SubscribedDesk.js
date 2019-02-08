@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import StrokeImg from '../../img/StrokeImg'
-import TopBar from './TopBar'
+import TopBar from '../../components/TopBar'
 import PrayersList from '../../components/PrayersList/PrayersList';
 import ShowAnsweredPrayersBtn from '../../components/ShowAnsweredPrayersBtn/ShowAnsweredPrayersBtn';
 
@@ -40,6 +40,12 @@ class SubscribedDesk extends React.Component {
       item: this.props.navigation.getParam('item'),
     });
   }
+
+  navigateToSubscribed = () => {
+    this.props.navigation.navigate('Subscribed', {
+      item: this.props.navigation.getParam('item'),
+    });
+  }
   
   filterDataToNotAnswerPrayers = () => {
     const data = this.props.prayers;
@@ -52,6 +58,13 @@ class SubscribedDesk extends React.Component {
     this.props.makeSubPrayerAnswer(prayerId);
   };
 
+  openPrayerDetails = (values) => {
+    this.props.navigation.navigate('PrayerDetails', {
+      prayer: values,
+      answerPrayer: this.handleChangeCheckOfPrayer(values.id)
+    });
+  };
+
   render() {
     const item = this.props.navigation.getParam('item');
     const filterPrayersForDesk = this.props.prayers
@@ -62,11 +75,18 @@ class SubscribedDesk extends React.Component {
       .filter((prayer) => (prayer.isAnswer === true));
     return (
       <View style={styles.container}>
-        <TopBar item={item} handlePress={this.navigateToMyPrayers} />
+        <TopBar 
+          item={item} 
+          handlePressToMyPrayers={this.navigateToMyPrayers} 
+          handlePressToSubscribed={this.navigateToSubscribed}
+          countSubscribe={filterPrayersForDesk.length}
+          isMyPrayers={false}
+        />
         {filterPrayersForDesk.length === 0 || filterNonAnsweredPrayersForDesk.length > 0 ? 
         <PrayersList 
           data={filterNonAnsweredPrayersForDesk} 
           handleCheck={this.handleChangeCheckOfPrayer} 
+          handlePressPrayer={this.openPrayerDetails} 
         /> : undefined}
         {filterPrayersForDesk.length !== 0 ? 
         <ShowAnsweredPrayersBtn 
@@ -77,6 +97,7 @@ class SubscribedDesk extends React.Component {
         <PrayersList 
           data={filterAnsweredPrayersForDesk} 
           handleCheck={this.handleChangeCheckOfPrayer} 
+          handlePressPrayer={this.openPrayerDetails} 
         /> : undefined}
       </View>
     );

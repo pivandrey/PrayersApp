@@ -17,6 +17,10 @@ class PrayersList extends React.Component {
     }
   };
 
+  handlePressPrayer = (values) => {
+    this.props.handlePressPrayer(values)
+  }
+
   _keyExtractor = (item, index) => item.id;
 
   render() {
@@ -27,7 +31,9 @@ class PrayersList extends React.Component {
             data={this.props.data}
             keyExtractor={this._keyExtractor}
             renderItem={({item}) => 
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => this.handlePressPrayer(item)}
+              >
                 <PrayerMini 
                   data={item} 
                   handleCheck={this.props.handleCheck} 

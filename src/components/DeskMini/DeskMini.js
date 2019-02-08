@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View, Button, Image, TouchableHighlight } from 'react-native';
+import { Text, View } from 'react-native';
 
 
-import styles from './stylesDeskMini'
+import styles from './style'
 
 class DeskMini extends React.Component {
   render() {

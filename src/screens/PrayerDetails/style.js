@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 export default styles = StyleSheet.create({
   container: {
@@ -13,6 +13,9 @@ export default styles = StyleSheet.create({
   },
   btnAdd: {
     marginRight: 10,
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
   btnAddText: {
     color: '#72A8BC',

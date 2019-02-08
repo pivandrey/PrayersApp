@@ -11,7 +11,8 @@ const initialState = {
       subscribers: '',
       countPrayedTotal: 0,
       countPrayedMe: 0,
-      dataAdded: '',
+      dataAdded: '2019-02-02T10:34:05.863Z',
+      lastPrayed: '2019-02-02T06:34:05.863Z',
     },
     {
       id: 'adsadsasddsds',
@@ -21,7 +22,8 @@ const initialState = {
       subscribers: 2,
       countPrayedTotal: 3,
       countPrayedMe: 1,
-      dataAdded: '',
+      dataAdded: '2019-01-08T10:34:05.863Z',
+      lastPrayed: '2019-02-08T03:34:05.863Z',
     }
   ],
   subscribedPrayers: [
@@ -33,7 +35,8 @@ const initialState = {
       subscribers: 2,
       countPrayedTotal: 0,
       countPrayedMe: 0,
-      dataAdded: '',
+      dataAdded: '2019-01-28T10:34:05.863Z',
+      lastPrayed: '2019-02-01T10:34:05.863Z',
     },
     {
       id: 'adsadsas43ddsds',
@@ -43,7 +46,8 @@ const initialState = {
       subscribers: 2,
       countPrayedTotal: 3,
       countPrayedMe: 1,
-      dataAdded: '',
+      dataAdded: '2019-02-08T10:10:05.863Z',
+      lastPrayed: '2019-02-08T09:34:05.863Z',
     }
   ]
 };
@@ -83,7 +87,8 @@ const prayersReducer = handleActions(
       }
     },
     [TYPES.MAKE_PRAYER_ANSWER]:  (state, action) => {
-      const prayerId = action.payload;
+      const prayerId = action.payload.prayerId;
+      const date = action.payload.date;
       const prayersAfterChange = state.prayers.map((prayer) => {
         if (prayer.id === prayerId) {
           if (!prayer.isAnswer) {
@@ -92,6 +97,7 @@ const prayersReducer = handleActions(
               isAnswer: !prayer.isAnswer, 
               countPrayedTotal: prayer.countPrayedTotal + 1,
               countPrayedMe: prayer.countPrayedMe + 1,
+              lastPrayed: date,
             }
           } else {
             return {...prayer, isAnswer: !prayer.isAnswer}

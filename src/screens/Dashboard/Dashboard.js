@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import { addDesk } from '../../actions/deskActions';
 import styles from './style';
 
-import DeskMini from './DeskMini';
+import DeskMini from '../../components/DeskMini';
 
 class Dashboard extends React.Component {
   static navigationOptions = ({ navigation} ) => {

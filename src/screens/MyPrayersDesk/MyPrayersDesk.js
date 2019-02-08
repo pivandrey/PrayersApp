@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import StrokeImg from '../../img/StrokeImg';
-import TopBar from './TopBar';
+import TopBar from '../../components/TopBar';
 import AddNewPrayer from '../../components/AddNewPrayer';
 import PrayersList from '../../components/PrayersList/PrayersList';
 import ShowAnsweredPrayersBtn from '../../components/ShowAnsweredPrayersBtn/ShowAnsweredPrayersBtn';
@@ -25,6 +25,7 @@ class MyPrayersDesk extends React.Component {
         borderBottomWidth: 0,
         borderBottomColor: 'transparent',
       },
+      headerBackTitle: null,
       headerRight: (
         <TouchableOpacity
           style={styles.btnAdd}
@@ -39,6 +40,12 @@ class MyPrayersDesk extends React.Component {
 
   navigateToSubscribed = () => {
     this.props.navigation.navigate('Subscribed', {
+      item: this.props.navigation.getParam('item'),
+    });
+  }
+
+  navigateToMyPrayers = () => {
+    this.props.navigation.navigate('MyPrayers', {
       item: this.props.navigation.getParam('item'),
     });
   }
@@ -63,11 +70,21 @@ class MyPrayersDesk extends React.Component {
   }
 
   handleChangeCheckOfPrayer = (prayerId) => {
-    this.props.makePrayerAnswer(prayerId);
+    const date = new Date();
+    this.props.makePrayerAnswer({ prayerId: prayerId, date: date });
+  };
+
+  openPrayerDetails = (values) => {
+    this.props.navigation.navigate('PrayerDetails', {
+      prayer: values,
+      answerPrayer: this.handleChangeCheckOfPrayer(values.id)
+    });
   };
 
   render() {
     const item = this.props.navigation.getParam('item');
+    const countOfSubscribedPrayers = this.props.subscribedPrayers
+      .filter((subscribePrayer) => (subscribePrayer.deskId === item.id)).length;
     const filterPrayersForDesk = this.props.prayers
       .filter((prayerForDesk) => (prayerForDesk.deskId === item.id));
     const filterNonAnsweredPrayersForDesk = filterPrayersForDesk
@@ -76,12 +93,19 @@ class MyPrayersDesk extends React.Component {
       .filter((prayer) => (prayer.isAnswer === true));
     return (
       <View style={styles.container}>
-        <TopBar item={item} handlePress={this.navigateToSubscribed}/>
+        <TopBar 
+          item={item} 
+          handlePressToMyPrayers={this.navigateToMyPrayers} 
+          handlePressToSubscribed={this.navigateToSubscribed}
+          countSubscribe={countOfSubscribedPrayers}
+          isMyPrayers={true}
+        />
         <AddNewPrayer handleSubmit={this.addNewPrayer}/>
         {filterPrayersForDesk.length === 0 || filterNonAnsweredPrayersForDesk.length > 0 ? 
         <PrayersList 
           data={filterNonAnsweredPrayersForDesk} 
-          handleCheck={this.handleChangeCheckOfPrayer} 
+          handleCheck={this.handleChangeCheckOfPrayer}
+          handlePressPrayer={this.openPrayerDetails} 
         /> : undefined}
         {filterPrayersForDesk.length !== 0 ? 
         <ShowAnsweredPrayersBtn 
@@ -92,6 +116,7 @@ class MyPrayersDesk extends React.Component {
         <PrayersList 
           data={filterAnsweredPrayersForDesk} 
           handleCheck={this.handleChangeCheckOfPrayer} 
+          handlePressPrayer={this.openPrayerDetails} 
         /> : undefined}
       </View>
     );
@@ -102,6 +127,7 @@ const mapStateToProps = store => {
   return {
     prayers: store.prayers.prayers,
     flagShow: store.desks.isShowAnsweredPrayers,
+    subscribedPrayers: store.prayers.subscribedPrayers,
   };
 };
 
