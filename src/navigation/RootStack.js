@@ -1,19 +1,23 @@
 import { createStackNavigator } from 'react-navigation';
 
-import DeskStack from './DeskStack';
+import DashboardStack from './DashboardStack';
 import ModalAdd from '../screens/ModalAdd';
+import ModalDelete from '../screens/ModalDelete';
 
 export default RootStack = createStackNavigator(
   {
-    DeskStack: {
-      screen: DeskStack,
+    DashboardStack: {
+      screen: DashboardStack,
     },
     ModalAdd: {
       screen: ModalAdd,
     },
+    ModalDelete: {
+      screen: ModalDelete,
+    }
   },
   {
     mode: 'modal',
     headerMode: 'none',
   }
-)
+);

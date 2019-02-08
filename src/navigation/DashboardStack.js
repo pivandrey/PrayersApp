@@ -1,15 +1,19 @@
 import { createStackNavigator } from 'react-navigation';
 
 import Dashboard from '../screens/Dashboard';
-import Desk from '../screens/Desk'
+import MyPrayersDesk from '../screens/MyPrayersDesk'
+import SubscribedDesk from '../screens/SubscribedDesk'
 
-export default DeskStack = createStackNavigator(
+export default DashboardStack = createStackNavigator(
   {
     Dashboard: {
       screen: Dashboard,
     },
-    Desk: {
-      screen: Desk,
+    MyPrayers: {
+      screen: MyPrayersDesk,
+    },
+    Subscribed: {
+      screen: SubscribedDesk,
     },
   },
   {

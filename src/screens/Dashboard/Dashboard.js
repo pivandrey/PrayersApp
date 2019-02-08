@@ -24,8 +24,6 @@ class Dashboard extends React.Component {
   _keyExtractor = (item, index) => item.id;
 
   render() {
-    const text = "New Desk"
-    console.log(this.props.desks)
     return (
       <View style={styles.container}>
         <Text 
@@ -41,7 +39,7 @@ class Dashboard extends React.Component {
           keyExtractor={this._keyExtractor}
           renderItem={({item}) => 
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('Desk', {
+              onPress={() => this.props.navigation.navigate('MyPrayers', {
                 item: item,
               })}
             ><DeskMini title={item.title}/></TouchableOpacity>

@@ -16,6 +16,7 @@ const initialState = {
       id: "completedList",
     },
   ],
+  isShowAnsweredPrayers: true,
 };
 
 const randomId = () => {
@@ -33,12 +34,21 @@ const deskReducer = handleActions(
       }
     },
     [TYPES.DELETE_DESK]: (state, action) => {
-      const deskId = action.payload.id;
+      const deskId = action.payload;
+      const desksAfterDelete = state.desks.filter((desk) => {
+        return desk.id !== deskId
+      })
       return {
         ...state,
-        desks: state.desks,
+        desks: desksAfterDelete,
       }
-    }
+    },
+    [TYPES.FLAG_ANSWERED_PRAYERS]: (state, action) => {
+      return {
+        ...state,
+        isShowAnsweredPrayers: !state.isShowAnsweredPrayers,
+      }
+    },
   },
   initialState
  );
