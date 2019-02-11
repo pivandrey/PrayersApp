@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, View, Image } from 'react-native';
+import PropTypes from 'prop-types';
 
-import styles from './style'
+import styles from './style';
 
 class Comment extends React.Component {
 
@@ -15,8 +16,10 @@ class Comment extends React.Component {
       return Math.round(dateDifference / 60000) + ' minutes ago'
     } else if (dateDifference < 86400000) {
       return Math.round(dateDifference / 3600000) + ' hours ago'
+    } else  if (dateDifference < 2592000000) {
+      return Math.round(dateDifference / 86400000) + ' days ago'
     } else {
-    return Math.round(dateDifference / 86400000) + ' days ago'
+      return Math.round(dateDifference / 2592000000) + ' months ago'
     }
   };
 
@@ -24,7 +27,6 @@ class Comment extends React.Component {
     const comment = this.props.data;
     return(
       <View style={styles.container}>
-        <Image />
         <View style={styles.textContainer}>
           <View style={styles.textHeader}>
             <Text style={styles.userName}>{comment.user}</Text>
@@ -35,6 +37,10 @@ class Comment extends React.Component {
       </View>
     )
   }
+};
+
+Comment.propTypes = {
+  data: PropTypes.object.isRequired,
 };
 
 export default Comment;

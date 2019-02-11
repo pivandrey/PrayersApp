@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import { deleteDesk } from '../../actions/deskActions';
 
-import styles from './style'
+import styles from './style';
 
 class ModalDelete extends React.Component {
 
@@ -31,7 +31,6 @@ class ModalDelete extends React.Component {
 
 const mapStateToProps = store => {
   return {
-    desks: store.desks.desks,
   };
 };
 

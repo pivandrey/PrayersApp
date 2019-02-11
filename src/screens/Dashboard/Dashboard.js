@@ -2,8 +2,9 @@ import React from 'react';
 import { Text, View, FlatList, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
-import { addDesk } from '../../actions/deskActions';
+import { addDesk, openDesk, loadAllDataFromStorage } from '../../actions/deskActions';
 import styles from './style';
 
 import DeskMini from '../../components/DeskMini';
@@ -19,9 +20,18 @@ class Dashboard extends React.Component {
         ><Text style ={styles.btnAddText}>+</Text></TouchableOpacity>
       )
     }
-  }
+  };
 
   _keyExtractor = (item, index) => item.id;
+
+  openDesk = (desk) => {
+    this.props.navigation.navigate('MyPrayers', {item: desk,});
+    this.props.openDesk(desk.id);
+  };
+
+  componentDidMount = () => {
+    this.props.loadAllDataFromStorage()
+  }
 
   render() {
     return (
@@ -39,9 +49,7 @@ class Dashboard extends React.Component {
           keyExtractor={this._keyExtractor}
           renderItem={({item}) => 
             <TouchableOpacity
-              onPress={() => this.props.navigation.navigate('MyPrayers', {
-                item: item,
-              })}
+              onPress={() => this.openDesk(item)}
             ><DeskMini title={item.title}/></TouchableOpacity>
           }
         />
@@ -50,6 +58,10 @@ class Dashboard extends React.Component {
     );
   };
 };
+
+Dashboard.propTypes = {
+  desks: PropTypes.array.isRequired,
+}
 
 const mapStateToProps = store => {
   return {
@@ -60,6 +72,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     addDesk,
+    openDesk,
+    loadAllDataFromStorage,
   },
   dispatch
 );

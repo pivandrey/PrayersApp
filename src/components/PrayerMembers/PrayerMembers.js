@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, View, Image } from 'react-native';
+import PropTypes from 'prop-types';
 
-import styles from './style'
+import styles from './style';
 
 class PrayerMembers extends React.Component {
 

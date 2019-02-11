@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 
 import { addDesk } from '../../actions/deskActions';
 
-import styles from './style'
+import styles from './style';
 
 class ModalAdd extends React.Component {
 
@@ -44,7 +44,6 @@ class ModalAdd extends React.Component {
 
 const mapStateToProps = store => {
   return {
-    desks: store.desks.desks,
   };
 };
 

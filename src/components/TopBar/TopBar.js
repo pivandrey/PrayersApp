@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 
 import styles from './style';
 
@@ -28,6 +29,14 @@ class TopBar extends React.Component {
       </View>
     )
   }
+};
+
+TopBar.propTypes = {
+  item: PropTypes.object.isRequired,
+  handlePressToMyPrayers: PropTypes.func.isRequired,
+  handlePressToSubscribed: PropTypes.func.isRequired,
+  countSubscribe: PropTypes.number.isRequired,
+  isMyPrayers: PropTypes.bool.isRequired,
 };
 
 export default TopBar;

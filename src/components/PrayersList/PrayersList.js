@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, FlatList, View, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 
-import PrayerMini from '../PrayerMini'
+import PrayerMini from '../PrayerMini';
 
 import styles from './style';
 
@@ -14,12 +15,12 @@ class PrayersList extends React.Component {
       this.setState({
         text: '',
       })
-    }
+    };
   };
 
   handlePressPrayer = (values) => {
     this.props.handlePressPrayer(values)
-  }
+  };
 
   _keyExtractor = (item, index) => item.id;
 
@@ -44,7 +45,13 @@ class PrayersList extends React.Component {
         }
       </View>
     )
-  }
+  };
 };
+
+PrayersList.propTypes = {
+  data: PropTypes.array.isRequired,
+  handleCheck: PropTypes.func.isRequired,
+  handlePressPrayer: PropTypes.func.isRequired, 
+}
 
 export default PrayersList;

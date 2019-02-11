@@ -1,11 +1,11 @@
 import React from 'react';
 import { Image } from 'react-native';
 
-export default class UserImg extends React.Component {
+export default class NewComment extends React.Component {
   render() {
     return(
       <Image
-        source={require('./user.png')}
+        source={require('./newComment.png')}
       />
     )
   }

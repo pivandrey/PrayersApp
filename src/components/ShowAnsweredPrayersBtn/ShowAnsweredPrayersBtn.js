@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 
-import styles from './style'
+import styles from './style';
 
 class ShowAnsweredPrayersBtn extends React.Component {
 
@@ -24,5 +25,10 @@ class ShowAnsweredPrayersBtn extends React.Component {
     )
   }
 };
+
+ShowAnsweredPrayersBtn.propTypes = {
+  flagAnsweredPrayers: PropTypes.func.isRequired,
+  flagShow: PropTypes.bool.isRequired,
+}
 
 export default ShowAnsweredPrayersBtn;

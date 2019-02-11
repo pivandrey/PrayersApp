@@ -1,14 +1,16 @@
 import React from 'react';
-import { Text, View, Image, TouchableOpacity } from 'react-native';
+import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { createSelector } from 'reselect';
+import PropTypes from 'prop-types';
 
-import StrokeImg from '../../img/StrokeImg'
-import TopBar from '../../components/TopBar'
+import StrokeImg from '../../img/StrokeImg';
+import TopBar from '../../components/TopBar';
 import PrayersList from '../../components/PrayersList/PrayersList';
 import ShowAnsweredPrayersBtn from '../../components/ShowAnsweredPrayersBtn/ShowAnsweredPrayersBtn';
 
-import { makeSubPrayerAnswer } from '../../actions/prayersActions';
+import { makeSubPrayerAnswer, makeSubPrayerAnswerFromPrayerScreen } from '../../actions/prayersActions';
 import { flagAnsweredPrayers } from '../../actions/deskActions';
 
 import styles from './style';
@@ -33,87 +35,126 @@ class SubscribedDesk extends React.Component {
       ),
       headerLeft: null,
     }
-  }
+  };
 
   navigateToMyPrayers = () => {
     this.props.navigation.navigate('MyPrayers', {
       item: this.props.navigation.getParam('item'),
     });
-  }
+  };
 
   navigateToSubscribed = () => {
     this.props.navigation.navigate('Subscribed', {
       item: this.props.navigation.getParam('item'),
     });
-  }
+  };
   
   filterDataToNotAnswerPrayers = () => {
     const data = this.props.prayers;
     return data.filter((prayer) => {
       return prayer.isAnswer === false
     })
-  }
+  };
 
   handleChangeCheckOfPrayer = (prayerId) => {
-    this.props.makeSubPrayerAnswer(prayerId);
+    const date = new Date();
+    this.props.makeSubPrayerAnswer({ prayerId: prayerId, date: date });
+  };
+
+  handlePressAnswerPrayer = (prayerId) => {
+    const date = new Date();
+    this.props.makeSubPrayerAnswerFromPrayerScreen({ prayerId: prayerId, date: date });
   };
 
   openPrayerDetails = (values) => {
     this.props.navigation.navigate('PrayerDetails', {
       prayer: values,
-      answerPrayer: this.handleChangeCheckOfPrayer(values.id)
+      answerPrayer: (() => this.handlePressAnswerPrayer(values.id))
     });
   };
 
   render() {
     const item = this.props.navigation.getParam('item');
-    const filterPrayersForDesk = this.props.prayers
-      .filter((prayerForDesk) => (prayerForDesk.deskId === item.id));
-    const filterNonAnsweredPrayersForDesk = filterPrayersForDesk
-      .filter((prayer) => (prayer.isAnswer === false))
-    const filterAnsweredPrayersForDesk = filterPrayersForDesk
-      .filter((prayer) => (prayer.isAnswer === true));
     return (
       <View style={styles.container}>
         <TopBar 
           item={item} 
           handlePressToMyPrayers={this.navigateToMyPrayers} 
           handlePressToSubscribed={this.navigateToSubscribed}
-          countSubscribe={filterPrayersForDesk.length}
+          countSubscribe={this.props.prayersForDesk.length}
           isMyPrayers={false}
         />
-        {filterPrayersForDesk.length === 0 || filterNonAnsweredPrayersForDesk.length > 0 ? 
-        <PrayersList 
-          data={filterNonAnsweredPrayersForDesk} 
-          handleCheck={this.handleChangeCheckOfPrayer} 
-          handlePressPrayer={this.openPrayerDetails} 
-        /> : undefined}
-        {filterPrayersForDesk.length !== 0 ? 
-        <ShowAnsweredPrayersBtn 
-          flagAnsweredPrayers={this.props.flagAnsweredPrayers}
-          flagShow={this.props.flagShow}
-        /> : undefined}
-        {this.props.flagShow && filterAnsweredPrayersForDesk.length > 0 ? 
-        <PrayersList 
-          data={filterAnsweredPrayersForDesk} 
-          handleCheck={this.handleChangeCheckOfPrayer} 
-          handlePressPrayer={this.openPrayerDetails} 
-        /> : undefined}
+        <ScrollView 
+          scrollEnabled={true}
+        >
+          {this.props.prayersForDesk.length === 0 || this.props.nonAnsweredPrayersForDesk.length > 0 ? 
+          <PrayersList 
+            data={this.props.nonAnsweredPrayersForDesk} 
+            handleCheck={this.handleChangeCheckOfPrayer} 
+            handlePressPrayer={this.openPrayerDetails} 
+          /> : undefined}
+          {this.props.prayersForDesk.length !== 0 ? 
+          <ShowAnsweredPrayersBtn 
+            flagAnsweredPrayers={this.props.flagAnsweredPrayers}
+            flagShow={this.props.flagShow}
+          /> : undefined}
+          {this.props.flagShow && this.props.answeredPrayersForDesk.length > 0 ? 
+          <PrayersList 
+            data={this.props.answeredPrayersForDesk} 
+            handleCheck={this.handleChangeCheckOfPrayer} 
+            handlePressPrayer={this.openPrayerDetails} 
+          /> : undefined}
+        </ScrollView>
       </View>
     );
   };
 };
 
-const mapStateToProps = store => {
+SubscribedDesk.propTypes = {
+  prayers: PropTypes.array.isRequired,
+  flagShow: PropTypes.bool.isRequired,
+}
+
+const getPrayers = (state) => state.prayers.subscribedPrayers;
+const getDeskId = (state) => state.desks.currentDeskId;
+
+export const getPrayersForDesk = createSelector(
+  [getPrayers, getDeskId],
+  (prayers, currentDeskId) => (
+    prayers.filter((prayerForDesk) => (prayerForDesk.deskId === currentDeskId))
+  )
+);
+
+export const getNonAnsweredPrayersForDesk = createSelector(
+  [getPrayers, getDeskId],
+  (prayers, currentDeskId) => (
+    prayers.filter((prayerForDesk) => (prayerForDesk.deskId === currentDeskId))
+      .filter((prayer) => (prayer.isAnswer === false))
+  )
+);
+
+export const getAnsweredPrayersForDesk = createSelector(
+  [getPrayers, getDeskId],
+  (prayers, currentDeskId) => (
+    prayers.filter((prayerForDesk) => (prayerForDesk.deskId === currentDeskId))
+      .filter((prayer) => (prayer.isAnswer === true))
+  )
+);
+
+const mapStateToProps = state => {
   return {
-    prayers: store.prayers.subscribedPrayers,
-    flagShow: store.desks.isShowAnsweredPrayers,
+    prayers: state.prayers.subscribedPrayers,
+    flagShow: state.desks.isShowAnsweredPrayers,
+    prayersForDesk: getPrayersForDesk(state),
+    nonAnsweredPrayersForDesk: getNonAnsweredPrayersForDesk(state),
+    answeredPrayersForDesk: getAnsweredPrayersForDesk(state),
   };
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(
   {
     makeSubPrayerAnswer,
+    makeSubPrayerAnswerFromPrayerScreen,
     flagAnsweredPrayers,
   },
   dispatch
@@ -122,4 +163,4 @@ const mapDispatchToProps = dispatch => bindActionCreators(
 export default (connect(
   mapStateToProps,
   mapDispatchToProps, 
-)(SubscribedDesk));;
+)(SubscribedDesk));

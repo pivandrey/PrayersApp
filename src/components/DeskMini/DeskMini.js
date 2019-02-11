@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, View } from 'react-native';
+import PropTypes from 'prop-types';
 
-
-import styles from './style'
+import styles from './style';
 
 class DeskMini extends React.Component {
   render() {
@@ -12,6 +12,10 @@ class DeskMini extends React.Component {
       </View>
     )
   }
+};
+
+DeskMini.propTypes = {
+  title: PropTypes.string.isRequired,
 };
 
 export default DeskMini;

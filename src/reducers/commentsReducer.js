@@ -27,25 +27,18 @@ const initialState = {
   ],
 };
 
-const randomId = () => {
-  return Math.random().toString(36).substr(2, 9)
-}
-
 const commentsReducer = handleActions(
   {
     [TYPES.ADD_COMMENT]: (state, action) => {
-      const data = action.payload;
-      const newCommentsArray = [
-        ...state.prayers, 
-        {
-          ...data, 
-          id: randomId(), 
-          userId: ''
-        }
-      ];
       return {
         ...state,
-        comments: newCommentsArray,
+        comments: action.payload,
+      }
+    },
+    [TYPES.FETCH_COMMENTS_FROM_STORAGE]: (state, action) => {
+      return {
+        ...state,
+        comments: action.payload,
       }
     },
   },

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Image, TouchableHighlight } from 'react-native';
-import { CheckBox } from 'react-native-elements'
+import { Text, View } from 'react-native';
+import { CheckBox } from 'react-native-elements';
+import PropTypes from 'prop-types';
 
-import styles from './style'
+import styles from './style';
 import UserImg from '../../img/UserImg';
 import PrayerImg from '../../img/PrayerImg';
 
@@ -35,5 +36,10 @@ class PrayerMini extends React.Component {
     )
   }
 };
+
+PrayerMini.propTypes = {
+  data: PropTypes.object.isRequired,
+  handleCheck: PropTypes.func.isRequired,
+}
 
 export default PrayerMini;

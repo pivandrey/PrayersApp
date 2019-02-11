@@ -9,4 +9,4 @@ export default class PrayerImg extends React.Component {
       />
     )
   }
-}
+};

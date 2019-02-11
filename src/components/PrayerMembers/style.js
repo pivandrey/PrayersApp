@@ -2,11 +2,13 @@ import { StyleSheet, Dimensions } from 'react-native';
 
 export default styles = StyleSheet.create({
   container: {
-    width: (Dimensions.get('window').width - 30),
+    width: (Dimensions.get('window').width),
     display: 'flex',
     alignItems: 'flex-start',
     marginTop: 16,
     marginBottom: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   imageList: {
     display: 'flex',

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, TextInput, View, TouchableOpacity } from 'react-native';
+import PropTypes from 'prop-types';
 
 import styles from './style';
 
@@ -7,7 +8,7 @@ class AddNewPrayer extends React.Component {
   
   state = {
     text: '',
-  }
+  };
 
   handleClickSubmit = () => {
     const value = this.state.text;
@@ -16,7 +17,7 @@ class AddNewPrayer extends React.Component {
       this.setState({
         text: '',
       })
-    }
+    };
   };
 
   render() {
@@ -35,6 +36,10 @@ class AddNewPrayer extends React.Component {
       </View>
     )
   }
+};
+
+AddNewPrayer.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default AddNewPrayer;

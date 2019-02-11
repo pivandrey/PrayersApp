@@ -17,36 +17,39 @@ const initialState = {
     },
   ],
   isShowAnsweredPrayers: true,
+  currentDeskId: '',
 };
-
-const randomId = () => {
-  return Math.random().toString(36).substr(2, 9)
-}
 
 const deskReducer = handleActions(
   {
     [TYPES.ADD_DESK]: (state, action) => {
-      const value = action.payload;
-      const newDesksArray = [...state.desks, {...value, id: randomId()}]
       return {
         ...state,
-        desks: newDesksArray,
+        desks: action.payload,
       }
     },
     [TYPES.DELETE_DESK]: (state, action) => {
-      const deskId = action.payload;
-      const desksAfterDelete = state.desks.filter((desk) => {
-        return desk.id !== deskId
-      })
       return {
         ...state,
-        desks: desksAfterDelete,
+        desks: action.payload,
       }
     },
     [TYPES.FLAG_ANSWERED_PRAYERS]: (state, action) => {
       return {
         ...state,
         isShowAnsweredPrayers: !state.isShowAnsweredPrayers,
+      }
+    },
+    [TYPES.OPEN_DESK]: (state, action) => {
+      return {
+        ...state,
+        currentDeskId: action.payload,
+      }
+    },
+    [TYPES.FETCH_DESKS_FROM_STORAGE]: (state, action) => {
+      return {
+        ...state,
+        desks: action.payload,
       }
     },
   },

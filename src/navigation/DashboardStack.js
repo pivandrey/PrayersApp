@@ -1,8 +1,8 @@
 import { createStackNavigator } from 'react-navigation';
 
 import Dashboard from '../screens/Dashboard';
-import MyPrayersDesk from '../screens/MyPrayersDesk'
-import SubscribedDesk from '../screens/SubscribedDesk'
+import MyPrayersDesk from '../screens/MyPrayersDesk';
+import SubscribedDesk from '../screens/SubscribedDesk';
 import PrayerDetails from '../screens/PrayerDetails';
 
 export default DashboardStack = createStackNavigator(
@@ -32,4 +32,4 @@ export default DashboardStack = createStackNavigator(
       },
     },
   }
-)
+);

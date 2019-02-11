@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View } from 'react-native';
+import PropTypes from 'prop-types';
 
-import styles from './style'
+import styles from './style';
 
 class PrayerFact extends React.Component {
 
@@ -17,5 +18,9 @@ class PrayerFact extends React.Component {
     )
   }
 };
+
+PrayerFact.propTypes = {
+  data: PropTypes.object.isRequired,
+}
 
 export default PrayerFact;

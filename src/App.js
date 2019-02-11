@@ -9,6 +9,6 @@ class App extends React.Component {
       <AppContainer />
     );
   }
-}
+};
 
 export default App

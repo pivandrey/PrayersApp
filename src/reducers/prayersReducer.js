@@ -2,6 +2,7 @@ import { handleActions } from 'redux-actions';
 import * as TYPES from '../types';
 
 const initialState = {
+  currentPrayer: '',
   prayers: [
     {
       id: 'adsadsadsds',
@@ -52,86 +53,60 @@ const initialState = {
   ]
 };
 
-const randomId = () => {
-  return Math.random().toString(36).substr(2, 9)
-}
-
 const prayersReducer = handleActions(
-  {
-    [TYPES.ADD_PRAYER]: (state, action) => {
-      const data = action.payload;
-      const newPrayersArray = [
-        ...state.prayers, 
-        {
-          ...data, 
-          id: randomId(), 
-          subscribers: '',
-          isAnswer: false,
-          countPrayedTotal: 0,
-          countPrayedMe: 0,
-        }
-      ];
+  { 
+    [TYPES.OPEN_PRAYER]: (state, action) => {
       return {
         ...state,
-        prayers: newPrayersArray,
+        currentPrayer: action.payload,
+      }
+    },
+    [TYPES.ADD_PRAYER]: (state, action) => {
+      return {
+        ...state,
+        prayers: action.payload,
       }
     },
     [TYPES.DELETE_PRAYER]: (state, action) => {
-      const prayerId = action.payload;
-      const prayersAfterDelete = state.prayers.filter((prayer) => {
-        return prayer.id !== prayerId
-      })
       return {
         ...state,
-        prayers: prayersAfterDelete,
+        prayers: action.payload,
       }
     },
     [TYPES.MAKE_PRAYER_ANSWER]:  (state, action) => {
-      const prayerId = action.payload.prayerId;
-      const date = action.payload.date;
-      const prayersAfterChange = state.prayers.map((prayer) => {
-        if (prayer.id === prayerId) {
-          if (!prayer.isAnswer) {
-            return {
-              ...prayer, 
-              isAnswer: !prayer.isAnswer, 
-              countPrayedTotal: prayer.countPrayedTotal + 1,
-              countPrayedMe: prayer.countPrayedMe + 1,
-              lastPrayed: date,
-            }
-          } else {
-            return {...prayer, isAnswer: !prayer.isAnswer}
-          }
-        } else {
-          return prayer
-        }
-      })
       return {
         ...state,
-        prayers: prayersAfterChange,
+        prayers: action.payload,
+      }
+    }, 
+    [TYPES.MAKE_PRAYER_ANSWER_FROM_PRAYER_SCREEN]:  (state, action) => {
+      return {
+        ...state,
+        prayers: action.payload,
       }
     }, 
     [TYPES.MAKE_SUB_PRAYER_ANSWER]:  (state, action) => {
-      const prayerId = action.payload;
-      const prayersAfterChange = state.subscribedPrayers.map((prayer) => {
-        if (prayer.id === prayerId) {
-          if (!prayer.isAnswer) {
-            return {
-              ...prayer, 
-              isAnswer: !prayer.isAnswer, 
-              countPrayedTotal: prayer.countPrayedTotal + 1,
-              countPrayedMe: prayer.countPrayedMe + 1,
-            }
-          } else {
-            return {...prayer, isAnswer: !prayer.isAnswer}
-          }
-        } else {
-          return prayer
-        }
-      })
       return {
         ...state,
-        subscribedPrayers: prayersAfterChange,
+        subscribedPrayers: action.payload,
+      }
+    }, 
+    [TYPES.MAKE_SUB_PRAYER_ANSWER_FROM_PRAYER_SCREEN]:  (state, action) => {
+      return {
+        ...state,
+        subscribedPrayers: action.payload,
+      }
+    },
+    [TYPES.FETCH_PRAYERS_FROM_STORAGE]:  (state, action) => {
+      return {
+        ...state,
+        prayers: action.payload,
+      }
+    }, 
+    [TYPES.FETCH_SUBSCRIBED_PRAYERS_FROM_STORAGE]:  (state, action) => {
+      return {
+        ...state,
+        subscribedPrayers: action.payload,
       }
     }, 
   },
