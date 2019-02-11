@@ -29,7 +29,7 @@ export const addPrayer = (value) => async (dispatch, getState) => {
   } catch (e) {
     throw e
   }
-}
+};
 export const addPrayerFinish = createAction(TYPES.ADD_PRAYER);
 
 export const deletePrayer = (value) => async (dispatch, getState) => {
@@ -44,7 +44,7 @@ export const deletePrayer = (value) => async (dispatch, getState) => {
   } catch(e) {
     throw e
   }
-}
+};
 export const deletePrayerFinish = createAction(TYPES.DELETE_PRAYER);
 
 export const makePrayerAnswer = (values) => async (dispatch, getState) => {
@@ -75,7 +75,7 @@ export const makePrayerAnswer = (values) => async (dispatch, getState) => {
   } catch(e) {
     throw e
   }
-}
+};
 export const makePrayerAnswerFinish = createAction(TYPES.MAKE_PRAYER_ANSWER);
 
 export const makePrayerAnswerFromPrayerScreen = (values) => async (dispatch, getState) => {
@@ -102,8 +102,9 @@ export const makePrayerAnswerFromPrayerScreen = (values) => async (dispatch, get
   } catch(e) {
     throw e
   }
-}
-export const makePrayerAnswerFromPrayerScreenFinish = createAction(TYPES.MAKE_PRAYER_ANSWER_FROM_PRAYER_SCREEN);
+};
+export const makePrayerAnswerFromPrayerScreenFinish = createAction(
+  TYPES.MAKE_PRAYER_ANSWER_FROM_PRAYER_SCREEN);
 
 export const makeSubPrayerAnswer = (values) => async (dispatch, getState) => {
   try {
@@ -133,7 +134,7 @@ export const makeSubPrayerAnswer = (values) => async (dispatch, getState) => {
   } catch(e) {
     throw e
   }
-}
+};
 export const makeSubPrayerAnswerFinish = createAction(TYPES.MAKE_SUB_PRAYER_ANSWER);
 
 export const makeSubPrayerAnswerFromPrayerScreen = (values) => async (dispatch, getState) => {
@@ -160,6 +161,30 @@ export const makeSubPrayerAnswerFromPrayerScreen = (values) => async (dispatch, 
   } catch(e) {
     throw e
   }
-}
+};
+export const makeSubPrayerAnswerFromPrayerScreenFinish = createAction(
+  TYPES.MAKE_SUB_PRAYER_ANSWER_FROM_PRAYER_SCREEN);
 
-export const makeSubPrayerAnswerFromPrayerScreenFinish = createAction(TYPES.MAKE_SUB_PRAYER_ANSWER_FROM_PRAYER_SCREEN);
+export const changePrayerTitle = (value) => async (dispatch, getState) => {
+  try {
+    const state = getState();
+    const prayers = state.prayers.prayers;
+    const newTitle = value.title;
+    const prayerId = value.prayerId;
+    const prayersAfterChange = prayers.map((prayer) => {
+      if (prayer.id === prayerId) {
+          return {
+            ...prayer, 
+            title: newTitle,
+          }
+      } else {
+        return prayer
+      }
+    })
+    await AsyncStorage.setItem('prayers', JSON.stringify(prayersAfterChange));
+    dispatch(changePrayerTitleFinish(prayersAfterChange));
+  } catch (e) {
+    throw e
+  }
+};
+export const changePrayerTitleFinish = createAction(TYPES.CHANGE_PRAYER_TITLE);

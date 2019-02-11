@@ -24,15 +24,5 @@ export default styles = StyleSheet.create({
   },
   btnback: {
     marginLeft: 10,
-  },
-  input: {
-    width: (Dimensions.get('window').width),
-    backgroundColor: '#BFB393',
-    minHeight: 50,
-    paddingLeft: 15,
-    paddingRight: 15,
-    color: 'white',
-    fontSize: 17,
-    fontWeight: 'bold',
   }
 });

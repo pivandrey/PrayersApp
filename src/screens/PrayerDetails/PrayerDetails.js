@@ -8,15 +8,16 @@ import PropTypes from 'prop-types';
 
 import PrayerImg from '../../img/PrayerImg';
 
-import { makePrayerAnswer } from '../../actions/prayersActions';
+import { makePrayerAnswer, changePrayerTitle } from '../../actions/prayersActions';
 import { addComment } from '../../actions/commentsActions';
 
-import styles from './style';
 import LastPrayed from '../../components/LastPrayed/LastPrayed';
 import PrayerData from '../../components/PrayerData/PrayerData';
 import PrayerMembers from '../../components/PrayerMembers/PrayerMembers';
 import PrayerComments from '../../components/PrayerComments/PrayerComments';
+import PrayerTitle from '../../components/PrayerTitle/PrayerTitle';
 
+import styles from './style';
 
 class PrayerDetails extends React.Component {
   
@@ -55,15 +56,18 @@ class PrayerDetails extends React.Component {
     )
   };
 
+  changeTitlePrayer = (value) => {
+    const prayerId = this.props.navigation.getParam('prayer').id;
+    this.props.changePrayerTitle({ title: value, prayerId: prayerId })
+  }
+
   render() {
     const prayer = this.props.navigation.getParam('prayer');
     return (
       <View style={styles.container}>
-        <TextInput
-          onChangeText={(text) => this.setState({text: text})}
-          multiline={true}
-          style={styles.input}
-          defaultValue={prayer.title}
+        <PrayerTitle 
+          title={prayer.title} 
+          changeTitle={this.changeTitlePrayer}
         />
         <KeyboardAwareScrollView 
           scrollEnabled={true}
@@ -107,6 +111,7 @@ const mapDispatchToProps = dispatch => bindActionCreators(
   {
     makePrayerAnswer,
     addComment,
+    changePrayerTitle,
   },
   dispatch
 );

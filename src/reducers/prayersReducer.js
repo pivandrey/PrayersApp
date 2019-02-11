@@ -73,42 +73,48 @@ const prayersReducer = handleActions(
         prayers: action.payload,
       }
     },
-    [TYPES.MAKE_PRAYER_ANSWER]:  (state, action) => {
+    [TYPES.MAKE_PRAYER_ANSWER]: (state, action) => {
       return {
         ...state,
         prayers: action.payload,
       }
     }, 
-    [TYPES.MAKE_PRAYER_ANSWER_FROM_PRAYER_SCREEN]:  (state, action) => {
+    [TYPES.MAKE_PRAYER_ANSWER_FROM_PRAYER_SCREEN]: (state, action) => {
       return {
         ...state,
         prayers: action.payload,
       }
     }, 
-    [TYPES.MAKE_SUB_PRAYER_ANSWER]:  (state, action) => {
+    [TYPES.MAKE_SUB_PRAYER_ANSWER]: (state, action) => {
       return {
         ...state,
         subscribedPrayers: action.payload,
       }
     }, 
-    [TYPES.MAKE_SUB_PRAYER_ANSWER_FROM_PRAYER_SCREEN]:  (state, action) => {
+    [TYPES.MAKE_SUB_PRAYER_ANSWER_FROM_PRAYER_SCREEN]: (state, action) => {
       return {
         ...state,
         subscribedPrayers: action.payload,
       }
     },
-    [TYPES.FETCH_PRAYERS_FROM_STORAGE]:  (state, action) => {
+    [TYPES.FETCH_PRAYERS_FROM_STORAGE]: (state, action) => {
       return {
         ...state,
         prayers: action.payload,
       }
     }, 
-    [TYPES.FETCH_SUBSCRIBED_PRAYERS_FROM_STORAGE]:  (state, action) => {
+    [TYPES.FETCH_SUBSCRIBED_PRAYERS_FROM_STORAGE]: (state, action) => {
       return {
         ...state,
         subscribedPrayers: action.payload,
       }
-    }, 
+    },
+    [TYPES.CHANGE_PRAYER_TITLE]: (state, action) => {
+      return {
+        ...state,
+        prayers: action.payload,
+      }
+    },
   },
   initialState
  );
