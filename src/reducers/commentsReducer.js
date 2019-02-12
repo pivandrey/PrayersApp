@@ -1,5 +1,7 @@
 import { handleActions } from 'redux-actions';
 import * as TYPES from '../types';
+import { Image } from 'react-native';
+import React from 'react';
 
 const initialState = {
   comments: [
@@ -9,6 +11,7 @@ const initialState = {
       prayerId: 'adsadsadsds',
       dataAdded: '2019-02-08T09:34:05.863Z',
       user: 'Anna Barber',
+      imgSrc:require('../img/user1.png') 
     },
     {
       id: 'aads45asdd4sds',
@@ -16,6 +19,7 @@ const initialState = {
       prayerId: 'adsadsadsds',
       dataAdded: '2019-01-08T10:34:05.863Z',
       user: 'Hanna Barber',
+      imgSrc:require('../img/user2.png') 
     },
     {
       id: 'aadss45jgdd4sds',
@@ -23,6 +27,7 @@ const initialState = {
       prayerId: 'adsadsadsds',
       dataAdded: '2019-01-07T10:34:05.863Z',
       user: 'Gloria Barber',
+      imgSrc:require('../img/user3.png') 
     }
   ],
 };

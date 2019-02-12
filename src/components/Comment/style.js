@@ -38,5 +38,9 @@ export default styles = StyleSheet.create({
     fontSize: 17,
     color: '#514D47',
     marginRight: 6,
+  },
+  img: {
+    borderRadius: 20,
+    marginRight: 5,
   }
 });

@@ -27,6 +27,7 @@ class Comment extends React.Component {
     const comment = this.props.data;
     return(
       <View style={styles.container}>
+        {comment.imgSrc ? <Image source={comment.imgSrc} style={styles.img} /> : undefined}
         <View style={styles.textContainer}>
           <View style={styles.textHeader}>
             <Text style={styles.userName}>{comment.user}</Text>
